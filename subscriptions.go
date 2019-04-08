@@ -91,14 +91,12 @@ func (s *Subscriptions) reload() {
 
 func (s *Subscriptions) notifyAll(event *SubscriptionEvent) {
 	for _, subscription := range s.subscriptions {
-		log.Printf("notify %+v", event)
 		subscription.NotifyCh <- event
 	}
 }
 
 func (s *Subscriptions) notify(identifier *ChannelIdentifier, event *SubscriptionEvent) {
 	for _, subscription := range s.findAll(identifier) {
-		log.Printf("notify %+v", event)
 		subscription.NotifyCh <- event
 	}
 }
