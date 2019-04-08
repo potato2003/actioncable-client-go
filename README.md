@@ -36,7 +36,7 @@ params := map[string]interface{}{
 
 id := actioncable.NewChannelIdentifier("ChatChannel", params)
 subscription := consumer.Subscriptions.Create(id)
-subscription.SetEventHandler(&ChatSubscriptionEventHandler)
+subscription.SetHandler(&ChatSubscriptionEventHandler{})
 
 
 type ChatSubscriptionEventHandler {
