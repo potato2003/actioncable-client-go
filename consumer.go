@@ -21,11 +21,6 @@ func CreateConsumer(url *url.URL, opts *ConsumerOptions) (*Consumer, error) {
 	consumer := newConsumer(url, connection)
 	consumer.opts = opts
 
-	//connection.consumer = consumer
-	//connection.subscriptions = consumer.Subscriptions
-
-	//connection.start()
-
 	return consumer, nil
 }
 
