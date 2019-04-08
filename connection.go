@@ -65,7 +65,7 @@ func (c *connection) stop() error {
 func (c *connection) connectionLoop() {
 	b := backoff.Backoff{
 		Min:    100 * time.Millisecond,
-		Max:    5 * time.Second,
+		Max:    5000 * time.Millisecond,
 		Factor: 3,
 		Jitter: true,
 	}
