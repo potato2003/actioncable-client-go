@@ -20,6 +20,7 @@ func (s *Subscriptions) Create(channelIdentifier *ChannelIdentifier) (*Subscript
 	subscription, err := s.add(newSubscription(s.consumer, channelIdentifier))
 	if err != nil {
 		log.Println(err)
+		return nil, err
 	}
 
 	return subscription, nil
