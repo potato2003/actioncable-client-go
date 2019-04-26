@@ -32,6 +32,7 @@ type connection struct {
 	recieveCh     chan Event
 	isReady       bool
 	readyCh       chan struct{}
+	stopCh        chan struct{}
 	pingedAt      time.Time
 	connectedAt   time.Time
 	lockForSend   *sync.Mutex
@@ -53,13 +54,16 @@ func newConnection(url string) *connection {
 }
 
 func (c *connection) start() {
+	c.stopCh = make(chan struct{}, 1)
 	go c.connectionLoop()
 	c.waitUntilReady()
 }
 
 func (c *connection) stop() error {
-	log.Println("close")
-	return c.ws.Close()
+	c.ws.Close()
+	c.stopCh <- struct{}{}
+
+	return nil
 }
 
 func (c *connection) connectionLoop() {
@@ -69,7 +73,9 @@ func (c *connection) connectionLoop() {
 		Factor: 3,
 		Jitter: true,
 	}
-	defer c.stop()
+	defer func() {
+		c.ws.Close()
+	}()
 
 	/*
 		Connect to actioncable server.
@@ -78,6 +84,7 @@ func (c *connection) connectionLoop() {
 		After connection establishment, continuously receive messages
 		from server, and notify to event handler.
 	*/
+RECONNECT_LOOP:
 	for {
 		c.isReady = false
 
@@ -85,11 +92,13 @@ func (c *connection) connectionLoop() {
 		if err != nil {
 			logger.Infof("failed to connect, %s\n", err)
 		} else {
-			b.Reset()
+			b.Reset() // reset the backoff delay when connection established
 			c.eventHandlerLoop()
 		}
 
 		select {
+		case <-c.stopCh:
+			break RECONNECT_LOOP
 		case <-time.After(b.Duration()): // exponential backoff
 			logger.Infof("reconnecting")
 		}

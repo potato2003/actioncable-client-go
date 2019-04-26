@@ -1,6 +1,6 @@
 # Actioncable-Client-Go
 
-Actioncable Client Library for Go
+Actioncable Client Library for Go.
 
 # Usage
 

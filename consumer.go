@@ -70,3 +70,7 @@ func (c *Consumer) Connect() {
 
 	c.connection = connection
 }
+
+func (c *Consumer) Disconnect() {
+	c.connection.stop()
+}
