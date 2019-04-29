@@ -4,12 +4,24 @@ go:
  - 1.11.x
  - master
 
+env:
+  - TEST_WS=ws://localhost:3000/cable
+
 before_install:
+  - rvm install 2.5.3 # install second language
   - go get golang.org/x/tools/cmd/cover
   - go get github.com/mattn/goveralls
   - go get github.com/gorilla/websocket
   - go get github.com/jpillora/backoff
   - if ! go get code.google.com/p/go.tools/cmd/cover; then go get golang.org/x/tools/cmd/cover; fi
+
+before_script:
+  - |
+    ( # start actioncable server
+      cd test_rails_server;
+      ./bin/setup;
+      bundle exec rails server -p 3000 -d;
+    )
 
 script:
  - go test -v -covermode=count ./...
