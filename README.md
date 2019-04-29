@@ -4,11 +4,15 @@
 
 Actioncable Client Library for Go.
 
+# Requirements
+
+Go v1.10 or later.
+
 # Usage
 
 ## Connections
 
-```
+```go
 u, _ := url.Parse("ws://example.org")
 consumer := actioncable.CreateConsumer(u, nil)
 consumer.Connect()
@@ -16,7 +20,7 @@ consumer.Connect()
 
 **Adding custom header**
 
-```
+```go
 u, _ := url.Parse("ws://example.org")
 
 header := http.Header{}
@@ -31,7 +35,7 @@ consumer.Connect()
 
 ## Subscriptions
 
-```
+```go
 params := map[string]interface{}{
     "room":"Best Room"
 }
@@ -62,4 +66,23 @@ func (h *ChatSubscriptionEventHandler) OnReceived(se *actioncable.SubscriptionEv
     se.ReadJSON(&data)
     fmt.Println(data)
 }
+```
+
+# License
+
+MIT License
+
+# Test
+
+```
+go -v ./...
+```
+
+## Integration Test with ActionCable Server
+
+```bash
+(cd test_rails_server; ./bin/setup; bundle exec rails -p 3000 -d) # start actioncable server
+TEST_WS="ws://localhost:3000/cable" gotest -v ./...
+kill $(cat ./test_rails_server/tmp/pids/server.pid) # stop actioncable server
+
 ```
