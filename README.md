@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/potato2003/actioncable-client-go.svg?branch=master)](https://travis-ci.org/potato2003/actioncable-client-go)
+
 # Actioncable-Client-Go
 
 Actioncable Client Library for Go.

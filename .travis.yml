@@ -1,0 +1,15 @@
+language: go
+go: 
+ - 1.10.x
+ - 1.11.x
+ - master
+
+before_install:
+  - go get golang.org/x/tools/cmd/cover
+  - go get github.com/mattn/goveralls
+  - go get github.com/gorilla/websocket
+  - go get github.com/jpillora/backoff
+  - if ! go get code.google.com/p/go.tools/cmd/cover; then go get golang.org/x/tools/cmd/cover; fi
+
+script:
+ - go test -v -covermode=count ./...
