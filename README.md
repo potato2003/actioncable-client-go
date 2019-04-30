@@ -27,7 +27,7 @@ header := http.Header{}
 header.Set("User-Agent", "Dummy")
 
 opt := actioncable.NewConsumerOptions()
-opt.SetHeader(header)
+opt.SetHeader(&header)
 
 consumer := actioncable.CreateConsumer(u, opt)
 consumer.Connect()

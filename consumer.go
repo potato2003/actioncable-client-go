@@ -61,9 +61,11 @@ func (c *Consumer) Connect() {
 	connection := newConnection(c.url.String())
 	connection.consumer = c
 
-	//if c.header != nil {
-	//	connection.header = c.header
-	//}
+	if c.opts != nil {
+		if c.opts.Header() != nil {
+			connection.header = c.opts.Header()
+		}
+	}
 
 	connection.subscriptions = c.Subscriptions
 	connection.start()
