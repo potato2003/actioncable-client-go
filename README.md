@@ -75,14 +75,14 @@ MIT License
 # Test
 
 ```
-go -v ./...
+go test -v ./...
 ```
 
 ## Integration Test with ActionCable Server
 
 ```bash
 (cd test_rails_server; ./bin/setup; bundle exec rails -p 3000 -d) # start actioncable server
-TEST_WS="ws://localhost:3000/cable" gotest -v ./...
+TEST_WS="ws://localhost:3000/cable" go test -v ./...
 kill $(cat ./test_rails_server/tmp/pids/server.pid) # stop actioncable server
 
 ```
