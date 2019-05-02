@@ -12,6 +12,7 @@ type Consumer struct {
 	opts          *ConsumerOptions
 }
 
+// Passing in nil options will cause it to create the consumer with the default options.
 func CreateConsumer(url *url.URL, opts *ConsumerOptions) (*Consumer, error) {
 	if opts == nil {
 		opts = NewConsumerOptions()
