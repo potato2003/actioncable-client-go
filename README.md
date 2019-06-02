@@ -68,6 +68,23 @@ func (h *ChatSubscriptionEventHandler) OnReceived(se *actioncable.SubscriptionEv
 }
 ```
 
+You can send data from the client side to the server side. For example:
+
+```go
+// id := actioncable.NewChannelIdentifier("ChatChannel", params)
+// subscription := consumer.Subscriptions.Create(id)
+
+func (h *ChatSubscriptionEventHandler) OnConnected(se *actioncable.SubscriptionEvent) {
+    data := map[string]interface{}{
+        "fieldA":"valueA",
+        "fieldB":"valueB",
+    }
+
+    // # Calls `ChatChannel#appear(data)` on the server.
+    subscription.Peform("appear", data)
+}
+```
+
 # License
 
 MIT License
