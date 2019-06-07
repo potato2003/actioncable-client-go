@@ -18,7 +18,7 @@ consumer := actioncable.CreateConsumer(u, nil)
 consumer.Connect()
 ```
 
-**Adding custom header**
+You can also customize the HTTP header by using `NewConsumerOptions`.
 
 ```go
 u, _ := url.Parse("ws://example.org")
